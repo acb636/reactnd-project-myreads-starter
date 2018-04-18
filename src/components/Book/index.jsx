@@ -5,17 +5,19 @@ import Bookshelf from './Bookshelf'
 
 class ListBook extends Component {
     static propTypes = {
-        allBooks: PropTypes.array.isRequired
+        allBooks: PropTypes.array.isRequired,
+        onUpdateBook: PropTypes.func.isRequired
     }
 
     getBooksByShelf() {
-        return Object.values(this.props.allBooks.reduce((result, {
-            id,
-            title,
-            authors,
-            imageLinks,
-            shelf
-        }) => {
+        return Object.values(this.props.allBooks.reduce((result,
+            {
+                id,
+                title,
+                authors,
+                imageLinks,
+                shelf
+            }) => {
             if (!result[shelf]) result[shelf] = {
                 key: shelf,
                 name: shelf,
@@ -23,16 +25,20 @@ class ListBook extends Component {
             };
 
             result[shelf].books.push({
-                key: id,
+                id: id,
                 title,
                 authors,
-                cover: imageLinks.smallThumbnail
+                shelf,
+                imageLinks: {
+                    smallThumbnail: imageLinks.smallThumbnail
+                }
             });
             return result;
         }, {}))
     }
 
     render() {
+        const { onUpdateBook } = this.props
 
         let shelves = this.getBooksByShelf()
 
@@ -49,6 +55,7 @@ class ListBook extends Component {
                                 key={shelf.key}
                                 shelf={shelf.name}
                                 books={shelf.books}
+                                onUpdateBook={onUpdateBook}
                             />
                         ))}
                     </div>

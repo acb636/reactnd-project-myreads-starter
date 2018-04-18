@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import BookshelfChanger from './BookshelfChanger'
+import BooksGrid from './BooksGrid'
+import * as ShelvesApi from '../../services/ShelvesAPI'
 
-export default class Bookshelf extends Component {
+class Bookshelf extends Component {
 
     static propTypes = {
         books: PropTypes.array.isRequired,
-        shelf: PropTypes.string
+        shelf: PropTypes.string,
+        onUpdateBook: PropTypes.func.isRequired
     }
 
     static defaultProps = {
@@ -14,28 +16,17 @@ export default class Bookshelf extends Component {
     }
 
     render() {
-        const { shelf, books } = this.props
+        const { shelf, books, onUpdateBook } = this.props
+        let currentShelf = ShelvesApi.get(shelf)
 
         return (
             <div className="bookshelf">
-                <h2 className="bookshelf-title">{shelf}</h2>
+                <h2 className="bookshelf-title">{currentShelf.description}</h2>
                 <div className="bookshelf-books">
-                    <ol className="books-grid">
-                        {books.map((book) => (
-                            <li key={book.key}>
-                                <div className="book">
-                                    <div className="book-top">
-                                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.cover})` }}></div>
-                                        <BookshelfChanger />
-                                    </div>
-                                    <div className="book-title">{book.title}</div>
-                                    <div className="book-authors">{book.authors.join('; ')}</div>
-                                </div>
-                            </li>
-                        ))}
-                    </ol>
+                    <BooksGrid books={books} onUpdateBook={onUpdateBook} />
                 </div>
             </div>
         )
     }
 }
+export default Bookshelf
