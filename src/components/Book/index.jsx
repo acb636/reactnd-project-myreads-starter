@@ -3,14 +3,23 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Bookshelf from './Bookshelf'
 
+/**
+ * List books by shelf
+ */
 class ListBook extends Component {
+
     static propTypes = {
         allBooks: PropTypes.array.isRequired,
         onUpdateBook: PropTypes.func.isRequired
     }
 
+    /**
+     * Get the books by their related shelf
+     * @returns A reduced object of a book ordered by shelf
+     */
     getBooksByShelf() {
-        return Object.values(this.props.allBooks.reduce((result,
+        return Object.values(this.props.allBooks.reduce((
+            result,
             {
                 id,
                 title,
@@ -18,23 +27,24 @@ class ListBook extends Component {
                 imageLinks,
                 shelf
             }) => {
-            if (!result[shelf]) result[shelf] = {
-                key: shelf,
-                name: shelf,
-                books: []
-            };
+                if (!result[shelf]) result[shelf] = {
+                    key: shelf,
+                    name: shelf,
+                    books: []
+                };
 
-            result[shelf].books.push({
-                id: id,
-                title,
-                authors,
-                shelf,
-                imageLinks: {
-                    smallThumbnail: imageLinks.smallThumbnail
-                }
-            });
-            return result;
-        }, {}))
+                result[shelf].books.push({
+                    id: id,
+                    title,
+                    authors,
+                    shelf,
+                    imageLinks: {
+                        smallThumbnail: imageLinks.smallThumbnail
+                    }
+                });
+                return result;
+            }, {}
+        ));
     }
 
     render() {
@@ -64,7 +74,7 @@ class ListBook extends Component {
                     <Link to='/search'>Add a book</Link>
                 </div>
             </div>
-        );
+        )
     }
 }
 

@@ -1,3 +1,4 @@
+/** Available shelves */
 const shelves = [
   {
     description: 'Currently Reading',
@@ -15,10 +16,17 @@ const shelves = [
     description: 'None',
     value: 'none'
   }
-]
+];
 
+/**
+ * Get the description of a shelf by its related value
+ * @param {string} value
+ */
 export const get = (value) => (
   shelves.filter((shelf) => shelf.value === value).pop()
-)
+);
 
-export const getAll = () => (shelves)
+/**
+ * Get all shelves
+ */
+export const getAll = () => (shelves);

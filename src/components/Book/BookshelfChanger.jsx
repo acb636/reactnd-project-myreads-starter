@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as ShelvesAPI from '../../services/ShelvesAPI'
 
+/**
+ * Option list for a book shelf changer
+ */
 class BookshelfChanger extends Component {
 
     static propTypes = {

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import BooksGrid from './BooksGrid'
 import * as ShelvesApi from '../../services/ShelvesAPI'
 
+/**
+ * Bookshelf
+ */
 class Bookshelf extends Component {
 
     static propTypes = {

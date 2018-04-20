@@ -5,26 +5,37 @@ import Books from './components/Book'
 import Search from './components/Book/Search'
 import './styles/App.css'
 
+/**
+ * Main component
+ */
 class BooksApp extends Component {
 
   state = {
     books: []
   }
 
+  /**
+   * Get all books
+   */
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books: books })
-    })
+    });
   }
 
+  /**
+   * Persists the updated information of a book
+   * @param {object} book - Complete book information
+   * @param {string} moveTo - The name of the shelf to move the book
+   */
   updateBook = (book, moveTo) => {
     book.shelf = moveTo
     this.setState((state) => ({
       books: state.books.filter((oldBook) => oldBook.id !== book.id).concat([book])
-    }))
+    }));
 
-    BooksAPI.update(book, moveTo)
-  }
+    BooksAPI.update(book, moveTo);
+  };
 
   render() {
     return (

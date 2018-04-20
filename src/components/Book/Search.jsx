@@ -5,6 +5,9 @@ import sortBy from 'sort-by'
 import escapeRegExp from 'escape-string-regexp'
 import BooksGrid from './BooksGrid'
 
+/**
+ * Search book
+ */
 class SearchBook extends Component {
 
     static propTypes = {
@@ -18,14 +21,19 @@ class SearchBook extends Component {
 
     updateQuery = (query) => {
         this.setState({ query: query })
-    }
+    };
 
+    /**
+     * Filter the book list by query
+     * @param {string} query - Search string for filter book by title or authors
+     * @returns An array filterd by query
+     */
     filterQuery = (query) => {
         const match = new RegExp(escapeRegExp(query), 'i')
         return this.props.allBooks.filter(
             (book) => match.test(book.title) || match.test(book.authors)
         )
-    }
+    };
 
     render() {
         const { query } = this.state

@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import BookshelfChanger from './BookshelfChanger'
 
+/**
+ * Grid containing all books
+ */
 class BooksGrid extends Component {
 
     static propTypes = {
