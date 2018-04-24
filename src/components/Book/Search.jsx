@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import sortBy from 'sort-by'
 import escapeRegExp from 'escape-string-regexp'
 import BooksGrid from './BooksGrid'
 
@@ -12,7 +11,12 @@ class SearchBook extends Component {
 
     static propTypes = {
         allBooks: PropTypes.array.isRequired,
-        onUpdateBook: PropTypes.func.isRequired
+        onUpdateBook: PropTypes.func.isRequired,
+        onSearchBook: PropTypes.func
+    }
+
+    static defaultProps = {
+        allBooks: []
     }
 
     state = {
@@ -21,27 +25,15 @@ class SearchBook extends Component {
 
     updateQuery = (query) => {
         this.setState({ query: query })
-    };
 
-    /**
-     * Filter the book list by query
-     * @param {string} query - Search string for filter book by title or authors
-     * @returns An array filterd by query
-     */
-    filterQuery = (query) => {
-        const match = new RegExp(escapeRegExp(query), 'i')
-        return this.props.allBooks.filter(
-            (book) => match.test(book.title) || match.test(book.authors)
-        )
+        if (query.length > 2) {
+            this.props.onSearchBook(escapeRegExp(query))
+        }
     };
 
     render() {
         const { query } = this.state
-        const { onUpdateBook } = this.props
-
-        let showingBooks
-        showingBooks = (query) ? this.filterQuery(query) : this.props.allBooks
-        showingBooks.sort(sortBy['title'])
+        const { allBooks, onUpdateBook } = this.props
 
         return (
             <div className="search-books">
@@ -56,9 +48,9 @@ class SearchBook extends Component {
                         />
                     </div>
                 </div>
-                {query.length && (
+                {query.length > 0 && (
                     <div className="search-books-results">
-                        <BooksGrid books={showingBooks} onUpdateBook={onUpdateBook} />
+                        <BooksGrid books={allBooks} onUpdateBook={onUpdateBook} />
                     </div>
                 )}
             </div>
